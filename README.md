@@ -1,3 +1,2 @@
-# hello-world
-hehe
-My name is Mark Chou. I am from San Francisco, CA. I am a third year student at UH Manoa and currently studying business.  
+# Repo for ITM 352 Fall 2019 Labs and Assignments
+All ITM352 stuff here. 
