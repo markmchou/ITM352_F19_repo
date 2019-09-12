@@ -11,17 +11,14 @@ body {
 }
 
 /* Typography */
-h1,h2 {
-    text-align: center
-}
-
-h2, p {
+h1, h2, p {
     color: white;
     text-shadow: 
         -1px -1px 0 #000,
         1px -1px 0 #000,
         -1px 1px 0 #000,
         1px 1px 0 #000;
+    text-align: center
 }
 
 /*  Form styling */
@@ -29,7 +26,7 @@ main {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-    background: url(./images/phone_globe.jpg); 
+    background: url(./images/product_display_image.jpg); 
     background-repeat: no-repeat; 
     background-position: center;
 }
@@ -40,3 +37,7 @@ div {
     display: flex;
   }
 
+header,footer, img {
+    background-color: darkturquoise;
+    border: 5px solid black;
+}
