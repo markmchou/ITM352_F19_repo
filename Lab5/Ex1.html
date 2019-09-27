@@ -1,25 +1,36 @@
-Hello! I am approximately <div id='ageDiv'></div>The # of months since my last b-day is:
 <script>
-//document.write(4);
+    // Hello! I am approximately <div id='ageDiv'></div>The # of months since my last b-day is:
+    //document.write(4);
 
-//document.getElementById('ageDiv').innerHTML = 20.33;
+    //document.getElementById('ageDiv').innerHTML = 20.33;
 
-var number_of_kids_wanted;
-number_of_kids_wanted = 2;
-age = 20;
-//console.log("I would like to have " + number_of_kids_wanted*age*stupid + " kids");
+    var number_of_kids_wanted;
+    number_of_kids_wanted = 2;
+    age = 20;
+    //console.log("I would like to have " + number_of_kids_wanted*age*stupid + " kids");
 
-var my_first_name = "Mark";
-var my_middle_name = "Ming";
-var my_last_name = "Chou";
+    var my_first_name = "Mark";
+    var my_middle_name = "Ming";
+    var my_last_name = "Chou";
+    /*
+        var fullName = my_first_name + '<br>'
+            + my_middle_name + '<br>'
+            + my_last_name + '<br>'
+            + my_first_name[0] + '.'
+            + my_middle_name[0] + '.'
+            + my_last_name[0] + '.';
+    
+        var fancyFullName = '<b>' + my_first_name + '</b><br>'
+            + '<em>' + my_middle_name + '</em><br>'
+            + '<font size ="150%">' + my_last_name + '</font>'
+    
+        document.write(fancyFullName);
+        */
+    var fullName2 = my_first_name + ' ' + my_middle_name + ' ' + my_last_name
 
-var fullName = my_first_name + '<br>' 
-+ my_middle_name + '<br>' 
-+ my_last_name + '<br>'
-+ my_first_name[0] + '.'
-+ my_middle_name[0] + '.'
-+my_last_name[0] + '.';
+    amount = 1.23;
+    tax = .0413 * amount;
 
-document.write (fullName);
+    document.write('The tax on' + ' ' + fullName2 + '’s bill is $' + tax.toFixed(2));
 
 </script>
