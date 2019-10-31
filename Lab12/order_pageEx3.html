@@ -15,7 +15,7 @@
             return returnErrors ? errors : (errors.length == 0);
         }
         function displayPurchase() {
-            if (GET['quantity_textbox']) {
+            if (isNotNegInt(GET['quantity_textbox'])) {
                 document.write(`Thank for you for ordering ${GET['quantity_textbox']} things!`);
             }
             else {
@@ -39,7 +39,7 @@
 </head>
 
 <body>
-    <form name="quantity_form" action="" method="POST">
+    <form name="quantity_form" action="" method="GET">
         <label for="quantity_textbox">quantity desired:</label>
         <input type="text" name="quantity_form.quantity_textbox" onkeyup="checkQuantityTextbox();">
         <span id='qty_textbox_message'>Enter a quantity</span>
