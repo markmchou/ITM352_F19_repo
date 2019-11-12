@@ -1,0 +1,54 @@
+/* General */
+body {
+    width: 400px;
+    margin: 0 auto;
+    background-image: url(./images/PokeBackground.jpg)
+}
+
+/* Styling the products display*/
+.item img {
+    width: 200px;
+    height: 200px; 
+}
+
+/* Typography */
+h1, h2, p, label {
+    color: white;
+    text-shadow: 
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+    text-align: center
+}
+
+/*  Form styling */
+main {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    background: url(./images/PokeBackground.png); 
+    background-repeat: repeat; 
+    background-position: right;
+}
+  
+/* block styling */
+div {
+    border: 5px solid black;
+    display: flex;
+  }
+
+header,footer, img {
+    background-color: palevioletred;
+    border: 5px solid black;
+}
+
+input[type=submit] {
+  width: 10em;  height: 2em;
+  font-size: 20px;
+  margin-left: 25%
+}
+
+table{
+   background-color: lightyellow; 
+}
