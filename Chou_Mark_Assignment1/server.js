@@ -1,6 +1,7 @@
-var express = require('express');
-var myParser = require("body-parser");
-var data = require("./public/product_data.js");
+// Mark Chou
+var express = require('express'); //code for server
+var myParser = require("body-parser"); //code for server
+var data = require("./public/product_data.js"); //accessing data from javascript file
 
 var app = express();
 app.all('*', function (request, response, next) {
@@ -16,3 +17,5 @@ app.post("/process_form", function (request, response) {
 
 app.use(express.static('./public'));
 app.listen(8080, () => console.log(`listening on port 8080`));
+
+//Sources: Lab13

@@ -1,9 +1,14 @@
+/*Mark Chou*/
 /* General */
 body {
     width: 400px;
     margin: 0 auto;
     background-image: url(./images/PokeBackground.jpg)
 }
+
+table{
+    background-image: url(./images/PokeBackground.png); 
+ }
 
 /* Styling the products display*/
 .item img {
@@ -12,7 +17,7 @@ body {
 }
 
 /* Typography */
-h1, h2, p, label {
+h1, h2, p, label, td, th {
     color: white;
     text-shadow: 
         -1px -1px 0 #000,
@@ -49,6 +54,4 @@ input[type=submit] {
   margin-left: 25%
 }
 
-table{
-   background-color: lightyellow; 
-}
+/* Sources: SmartPhoneProducts */

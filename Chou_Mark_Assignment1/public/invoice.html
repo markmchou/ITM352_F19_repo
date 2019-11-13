@@ -1,5 +1,6 @@
 <script src="./product_data.js" type="text/javascript"></script>
 <script>
+  // Mark Chou
   let params = (new URL(document.location)).searchParams;
   var quantities = [];
   if (params.has('purchase_submit')) {
@@ -24,6 +25,9 @@
 </head>
 
 <body>
+  <header>
+    <h1>Poke Shop</h1>
+  </header>
   <table border="2">
     <tbody>
       <tr id="invoice">
@@ -68,6 +72,8 @@
         // Compute grand total 
         var grandtotal = subtotal + tax + shipping;
 
+      // Sources: Invoice WOD, Assignment 1 example
+
       </script>
       <tr>
         <td colspan="4" width="100%">&nbsp;</td>
@@ -107,7 +113,11 @@
       </tr>
     </tbody>
   </table>
-
+  <footer>
+    <h1>
+      Thank You, <br> Please Come Again
+    </h1>
+  </footer>
 </body>
 
 </html>
