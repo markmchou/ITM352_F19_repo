@@ -100,8 +100,6 @@ th {
   color: white;
 }  
 
-/* Sources: SmartPhoneProducts, w3schools */
-
 /*All css below this is for SLIDESHOW on home page, from w3schools*/
 * {box-sizing: border-box;}
 .mySlides {display: none;}
@@ -129,3 +127,5 @@ img {vertical-align: middle;}
     background-image: url(./images/PokeBackground.png);
     border: 3px solid black;
 }
+
+/* Sources: SmartPhoneProducts, w3schools */
