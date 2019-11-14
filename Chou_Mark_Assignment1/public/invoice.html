@@ -1,21 +1,20 @@
 <script src="./product_data.js" type="text/javascript"></script>
 <script>
-  // Mark Chou
-  let params = (new URL(document.location)).searchParams;
-  var quantities = [];
-  if (params.has('purchase_submit')) {
-    for (i = 0; i < products.length; i++) {
-      if (params.has(`quantity${i}`)) {
-        a_qty = params.get(`quantity${i}`);
-        quantities[i] = a_qty;
-      }
-    }
-  } else {
-    document.write('no form submitted');
-  }
+// Mark Chou
+let params = (new URL(document.location)).searchParams;
+   var quantities = [];
+   if (params.has('purchase_submit')) {
+     for (i = 0; i < products.length; i++) {
+       if (params.has(`quantity${i}`)) {
+         a_qty = params.get(`quantity${i}`);
+         quantities[i] = a_qty;
+       }
+     }
+   } else {
+     document.write('no form submitted');
+   }
   console.log(quantities);
 </script>
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
