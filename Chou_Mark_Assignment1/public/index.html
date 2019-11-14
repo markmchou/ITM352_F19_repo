@@ -23,6 +23,7 @@
         }
     </style>
     <link href="product-style.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Tomorrow' rel='stylesheet'>
 </head>
 
 <body>
@@ -30,8 +31,70 @@
     <header>
         <h1>Poke Shop</h1>
     </header>
+    <ul>
+        <li><a class="active" href="./index.html">Home</a></li>
+        <li><a href="./products_page.html">Shop</a></li>
+      </ul>
     <a href="./products_page.html">
-        <img src="./images/pokeball_home.png" style="height:380px;width:380px; background-image: url(./images/PokeBackground.png);"></a>
+
+        <div class="slideshow-container">
+
+            <div class="mySlides">
+              <img src="./images/PokeBall.png" style="width:100%">
+              <div class="text">Poke Ball</div>
+            </div>
+            
+            <div class="mySlides">
+              <img src="./images/GreatBall.png" style="width:100%">
+              <div class="text">Great Ball</div>
+            </div>
+            
+            <div class="mySlides">
+              <img src="./images/UltraBall.png" style="width:100%">
+              <div class="text">Ultra Ball</div>
+            </div>
+            
+            </div>
+            
+            <div class="mySlides">
+                <img src="./images/MasterBall.png" style="width:100%">
+
+            </div>
+
+              <div class="mySlides">
+                <img src="./images/PokeBallsCombo.png" style="width:100%">
+                
+            </div>
+                
+            <div style="text-align:center">
+              <span class="dot"></span> 
+              <span class="dot"></span> 
+              <span class="dot"></span> 
+              <span class="dot"></span> 
+              <span class="dot"></span> 
+            </div>
+            
+            <script>
+            var slideIndex = 0;
+            showSlides();
+            
+            function showSlides() {
+              var i;
+              var slides = document.getElementsByClassName("mySlides");
+              var dots = document.getElementsByClassName("dot");
+              for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+              }
+              slideIndex++;
+              if (slideIndex > slides.length) {slideIndex = 1}    
+              for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+              }
+              slides[slideIndex-1].style.display = "block";  
+              dots[slideIndex-1].className += " active";
+              setTimeout(showSlides, 3000); // Change image every 3 seconds
+            }
+            </script>
         <footer>
                 <h1>
                   Click Poke Ball to Enter Poke Shop

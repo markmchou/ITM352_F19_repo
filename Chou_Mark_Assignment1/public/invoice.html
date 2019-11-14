@@ -21,13 +21,18 @@ let params = (new URL(document.location)).searchParams;
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Poke Shop Invoice</title>
   <link href="product-style.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Tomorrow' rel='stylesheet'>
 </head>
 
 <body>
   <header>
     <h1>Poke Shop</h1>
   </header>
-  <table border="2">
+  <ul>
+    <li><a class="active" href="./index.html">Home</a></li>
+    <li><a href="./products_page.html">Shop</a></li>
+  </ul>
+  <table border="2.5">
     <tbody>
       <tr id="invoice">
         <th style="text-align: center;" width="43%">Item</th>
