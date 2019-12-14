@@ -88,7 +88,8 @@ app.get("/login.html", function (request, response) {
        <ul>
            <li><a class="active" href="./index.html">Home</a></li>
            <li><a href="./product_page.html">Collection</a></li>
-       </ul>
+       
+           </ul>
    
        <!--this code puts the whole body of the website not overlapping the navbar-->
        <div style="margin-left:25%;padding:1px 16px;height:1000px;">
@@ -158,7 +159,8 @@ app.get("/registration.html", function (request, response) {
    <ul>
        <li><a class="active" href="./index.html">Home</a></li>
        <li><a href="./product_page.html">Collection</a></li>
-   </ul>
+       <li><a href="./login.html">Log In</a></li>
+       </ul>
 
    <!--this code puts the whole body of the website not overlapping the navbar-->
    <div style="margin-left:25%;padding:1px 16px;height:1000px;">
