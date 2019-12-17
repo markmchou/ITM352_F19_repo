@@ -44,14 +44,43 @@ body {font-size:16px;}
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px" id="showcase">
     <h1 class="w3-jumbo"><b>American Marketing Association</b></h1>
-    <h1 class="w3-xxxlarge w3-text-blue"><b>Your Adventure Awaits</b></h1>
+    <h1 class="w3-xxxlarge w3-text-blue"><b>Login Page</b></h1>
+    <h3 class="w3-xlarge w3-text-blue"><b>Access our weekly newsletter.</b></h3>
     <hr style="width:50px;border:5px solid blue" class="w3-round">
   </div>
-    
 
+
+
+    <!--this code puts the whole body of the website not overlapping the navbar-->
+    <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+
+        <h1>Marikit</h1>
+        <h2> Log In to Continue to Your Purchase!</h2>
+        <form name="loginform" method="POST">
+            <div>
+                <input type="text" name="username" size="40" placeholder="enter username"><br />
+                <input type="password" name="password" size="40" placeholder="enter password"><br />
+                <input type="submit" value="login" id="submit"> </div>
+        </form>
+</body>
+
+<h2>No Account? Join Us Below!</h2>
+
+<body>
+    <div>
+        <form action="./amasignup.html">
+        <input type="submit" value="Register Here" id="regpage" name="register_here">
+        </form>
+    </div>
     
-  
- 
+    </body>
+    
+    <script>
+    regpage.href = "amasignup.html" + document.location.search;
+    loginform.action = "./login" + document.location.search;
+    </script>
+    </html>
+    
 <!-- End page content -->
 </div>
 

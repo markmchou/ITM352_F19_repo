@@ -9,7 +9,7 @@ var filename = 'user_data.json' //defines array as object
 var app = express();
 var qs = require('querystring');
 var qstr = {};
-var braceletquantity = {};
+var itemquantity = {};
 
 
 app.use(myParser.urlencoded({ extended: true }));
@@ -18,7 +18,7 @@ app.use(myParser.urlencoded({ extended: true }));
 app.get("/process_page", function (request, response) {
    //check for valid quantities
    //look up request.query
-   braceletquantity = request.query;
+   itemquantity = request.query;
    params = request.query;
    console.log(params);
    if (typeof params['purchase_submit'] != 'undefined') {
@@ -123,7 +123,7 @@ app.get("/login.html", function (request, response) {
 
 app.post("/login.html", function (request, response) {
    // Process login form POST and redirect to logged in page if ok, back to login page if not
-   console.log(braceletquantity);
+   
    the_username = request.body.username;
    console.log(the_username, "Username is", typeof (users_reg_data[the_username]));
    //validate login data
@@ -131,8 +131,8 @@ app.post("/login.html", function (request, response) {
       //To check if the username exists in the json data
       if (users_reg_data[the_username].password == request.body.password) {
          //make the query string of prod quant needed for invoice
-         theQuantQuerystring = qs.stringify(braceletquantity);
-         response.redirect('/cart_page.html?' + theQuantQuerystring + `&username=${the_username}`);
+
+         response.redirect('/amacontact.html?' + `&username=${the_username}`);
          //ADDS USERNAME INFO TO INVOICE
       } else {
          response.redirect('./login.html?')
@@ -182,7 +182,7 @@ app.get("/registration.html", function (request, response) {
 
 app.post("/registration.html", function (request, response) {
    // process a simple register form
-   console.log(braceletquantity);
+   console.log(itemquantity);
    the_username = request.body.username;
    console.log(the_username, "Username is", typeof (users_reg_data[the_username]));
 
@@ -202,7 +202,7 @@ app.post("/registration.html", function (request, response) {
       users_reg_data[username].password = request.body.password;
       users_reg_data[username].email = request.body.email;
 
-      theQuantQuerystring = qs.stringify(braceletquantity);
+      theQuantQuerystring = qs.stringify(itemquantity);
       fs.writeFileSync(filename, JSON.stringify(users_reg_data));
       response.redirect("/cart_page.html?" + theQuantQuerystring + `&username=${the_username}`);
       
