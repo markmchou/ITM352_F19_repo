@@ -10,6 +10,13 @@ var app = express();
 var qs = require('querystring');
 var qstr = {};
 var itemquantity = {};
+var cookieParser = require('cookie-parser');
+
+app.all("*", function (request, response, next) {
+    console.log(request.method, request.path);
+    next();
+});
+app.use(cookieParser());
 
 
 app.use(myParser.urlencoded({ extended: true }));
@@ -57,6 +64,7 @@ function isNonNegInt(q, returnErrors = false) {
    return returnErrors ? errors : (errors.length == 0);
 }
 
+
 fs = require('fs'); //uses file system module
 
 //only open file if it exists
@@ -64,7 +72,6 @@ if (fs.existsSync(filename)) {
    stats = fs.statSync(filename) //gets stats from file
 
    data = fs.readFileSync(filename,'UTF-8');
-   console.log(typeof data);
    users_reg_data = JSON.parse(data);
 }
 
@@ -115,7 +122,7 @@ app.get("/amalogin.html", function (request, response) {
      <div class="w3-container" style="margin-top:80px" id="showcase">
        <h1 class="w3-jumbo"><b>American Marketing Association</b></h1>
        <h1 class="w3-xxxlarge w3-text-blue"><b>Login Page</b></h1>
-       <h3 class="w3-xlarge w3-text-blue"><b>Access our weekly newsletter.</b></h3>
+       <h3 class="w3-xlarge w3-text-blue"><b>Access our members exclusive content!</b></h3>
        <hr style="width:50px;border:5px solid blue" class="w3-round">
      </div>
    
@@ -163,7 +170,7 @@ app.get("/amalogin.html", function (request, response) {
      var captionText = document.getElementById("caption");
      captionText.innerHTML = element.alt;
    }
-   
+  
    </script>
    
    </body>
@@ -180,27 +187,22 @@ app.post("/amalogin.html", function (request, response) {
    the_username = request.body.username;
    console.log(the_username, "Username is", typeof (users_reg_data[the_username]));
    //validate login data
+   if (typeof users_reg_data[the_username] == 'undefined') {
+    response.redirect('./amalogin.html?'); 
+
+  }
    if (typeof users_reg_data[the_username] != 'undefined') {
       //To check if the username exists in the json data
       if (users_reg_data[the_username].password == request.body.password) {
-         //make the query string of prod quant needed for invoice
-
-         response.redirect('/amawelcome.html?'+ `&username=${the_username}`);
+         //make the query string have their username for the welcome
+         qstring = querystring.stringify(request.query);
+         //Input cookie data here
+         response.cookie('username', the_username, { maxAge: 50 * 1000 * 10 }).redirect('/amawelcome.html?'+ `&username=${the_username}`);
+         //response.redirect('/amawelcome.html?'+ `&username=${the_username}`);
       } else {
-         error = the_username + " Username does not exist";
-        // response.redirect('./amalogin.html?');
-         //alert(`Username or password was incorrect. Please try again or sign up for an account.`);
-         
-         //IN ASSIGNMENT, SHOW THERE IS AN ERROR
-      }
-        //Give you error message alert if password or username is flawed.
-    request.query.LoginError = error;
-    //Used to make login sticky so you dont have to retype it everytime you get the password wrong
-    request.query.StickyLoginUser = the_username;
-    qstring = querystring.stringify(request.query);
-    response.redirect("index.html?" + qstring);
-
-
+         response.redirect('./amalogin.html?');
+       
+          }
    }
 });
 
@@ -317,6 +319,7 @@ app.get("/amasignup.html", function (request, response) {
      captionText.innerHTML = element.alt;
    }
    
+   
    </script>
    
    </body>
@@ -348,7 +351,11 @@ app.post("/amasignup.html", function (request, response) {
       users_reg_data[username].password = request.body.password;
       users_reg_data[username].email = request.body.email;
 
-      response.redirect('/amawelcome.html?' + `&username=${the_username}`);
+         //make the query string have their username for the welcome
+         qstring = querystring.stringify(request.query);
+         //Input cookie data here
+         response.cookie('username', the_username, { maxAge: 50 * 1000 * 10 }).redirect('/amawelcome.html?'+ `&username=${the_username}`);
+         //response.redirect('/amawelcome.html?'+ `&username=${the_username}`);
    } else {
       response.redirect('./amasignup.html?');
       
