@@ -10,6 +10,13 @@ var app = express();
 var qs = require('querystring');
 var qstr = {};
 var itemquantity = {};
+var cookieParser = require('cookie-parser');
+
+app.all("*", function (request, response, next) {
+    console.log(request.method, request.path);
+    next();
+});
+app.use(cookieParser());
 
 
 app.use(myParser.urlencoded({ extended: true }));
@@ -38,9 +45,9 @@ app.get("/process_page", function (request, response) {
       if (has_errors || total_qty == 0) {
          //redirect to products page if quantity data is invalid
          qstr = querystring.stringify(request.query);
-         response.redirect("product_page.html?" + qstr);
+         response.redirect("amashop.html?" + qstr);
       } else { //the quantity data is okay for the invoice
-         response.redirect("amalogin.html?" + qstr);
+         response.redirect("amainvoice.html?" + qstr);
       }
    }
 });
@@ -57,6 +64,7 @@ function isNonNegInt(q, returnErrors = false) {
    return returnErrors ? errors : (errors.length == 0);
 }
 
+
 fs = require('fs'); //uses file system module
 
 //only open file if it exists
@@ -64,7 +72,6 @@ if (fs.existsSync(filename)) {
    stats = fs.statSync(filename) //gets stats from file
 
    data = fs.readFileSync(filename,'UTF-8');
-   console.log(typeof data);
    users_reg_data = JSON.parse(data);
 }
 
@@ -97,16 +104,12 @@ app.get("/amalogin.html", function (request, response) {
        <a href="./index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> 
        <a href="./amalogin.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Login</a> 
        <a href="./amasignup.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Sign Up</a> 
-       <a href="./amaevents.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Events</a> 
-       <a href="./amashop.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Shop</a> 
-       <a href="./amacontact.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Contact</a>
      </div>
    </nav>
    
    <!-- Top menu on small screens -->
    <header class="w3-container w3-top w3-hide-large w3-blue w3-xlarge w3-padding">
      <a href="javascript:void(0)" class="w3-button w3-blue w3-margin-right" onclick="w3_open()">☰</a>
-     <span>Company Name</span>
    </header>
    
    <!-- Overlay effect when opening sidebar on small screens -->
@@ -119,30 +122,60 @@ app.get("/amalogin.html", function (request, response) {
      <div class="w3-container" style="margin-top:80px" id="showcase">
        <h1 class="w3-jumbo"><b>American Marketing Association</b></h1>
        <h1 class="w3-xxxlarge w3-text-blue"><b>Login Page</b></h1>
-       <h3 class="w3-xlarge w3-text-blue"><b>Access our weekly newsletter.</b></h3>
+       <h3 class="w3-xlarge w3-text-blue"><b>Access our members exclusive content!</b></h3>
        <hr style="width:50px;border:5px solid blue" class="w3-round">
      </div>
    
-     <form name="loginform" method="POST">
-       <div>
-           <input type="text" name="username" size="40" placeholder="enter username"><br/>
-   <br>
-           <input type="password" name="password" size="40" placeholder="enter password"><br/>
-   <br>
-           <input type="submit" value="login" id="submit"> </div>
-   </form>
+   
+   
+       <!--this code puts the whole body of the website not overlapping the navbar-->
+       <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+   
+           <form name="loginform" method="POST">
+               <div>
+                   <input type="text" name="username" size="40" placeholder="enter username"><br />
+                   <input type="password" name="password" size="40" placeholder="enter password"><br />
+                   <input type="submit" value="login" id="submit"> </div>
+           </form>
    </body>
-     
-    
+   
+       <script>
+       regpage.href = "amasignup.html" + document.location.search;
+       loginform.action = "./login" + document.location.search;
+       </script>
+       </html>
+       
    <!-- End page content -->
    </div>
    
    <!-- W3.CSS Container -->
    <div class="w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right"><a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity"></a></p></div>
    
+   <script>
+   // Script to open and close sidebar
+   function w3_open() {
+     document.getElementById("mySidebar").style.display = "block";
+     document.getElementById("myOverlay").style.display = "block";
+   }
+    
+   function w3_close() {
+     document.getElementById("mySidebar").style.display = "none";
+     document.getElementById("myOverlay").style.display = "none";
+   }
+   
+   // Modal Image Gallery
+   function onClick(element) {
+     document.getElementById("img01").src = element.src;
+     document.getElementById("modal01").style.display = "block";
+     var captionText = document.getElementById("caption");
+     captionText.innerHTML = element.alt;
+   }
+  
+   </script>
+   
    </body>
    </html>
-          
+   
 `;
    response.send(str);
 
@@ -154,17 +187,22 @@ app.post("/amalogin.html", function (request, response) {
    the_username = request.body.username;
    console.log(the_username, "Username is", typeof (users_reg_data[the_username]));
    //validate login data
+   if (typeof users_reg_data[the_username] == 'undefined') {
+    response.redirect('./amalogin.html?'); 
+
+  }
    if (typeof users_reg_data[the_username] != 'undefined') {
       //To check if the username exists in the json data
       if (users_reg_data[the_username].password == request.body.password) {
-         //make the query string of prod quant needed for invoice
-
-         response.redirect('/amanewsletter.html?' + `&username=${the_username}`);
-         //ADDS USERNAME INFO TO INVOICE
+         //make the query string have their username for the welcome
+         qstring = querystring.stringify(request.query);
+         //Input cookie data here
+         response.cookie('username', the_username, { maxAge: 50 * 1000 * 10 }).redirect('/amawelcome.html?'+ `&username=${the_username}`);
+         //response.redirect('/amawelcome.html?'+ `&username=${the_username}`);
       } else {
-         response.redirect('./amalogin.html?')
-         //IN ASSIGNMENT, SHOW THERE IS AN ERROR
-      }
+         response.redirect('./amalogin.html?');
+       
+          }
    }
 });
 
@@ -172,25 +210,76 @@ app.get("/amasignup.html", function (request, response) {
    // Give a simple register form
 
    str = `
+   <!DOCTYPE html>
    <html lang="en">
-   <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-       <title>Document</title>
-       <link href = "product_style.css" rel="stylesheet">
-       <script>src ="server.js"</script>
-   </head>
+   <title>American Marketing Association</title>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+   <style>
+   body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+   body {font-size:16px;}
+   .w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+   .w3-half img:hover{opacity:1}
+   </style>
    <body>
-   <!--the following codes is for the navigation bar-->
-   <ul>
-       <li><a class="active" href="./index.html">Home</a></li>
-       <li><a href="./product_page.html">Collection</a></li>
-       <li><a href="./amalogin.html">Log In</a></li>
-       </ul>
-
-   <!--this code puts the whole body of the website not overlapping the navbar-->
-   <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+   
+   <!-- Sidebar/menu -->
+   <nav class="w3-sidebar w3-blue w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+     <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+     <div class="w3-container">
+       <h3 class="w3-padding-64"><b>American Marketing Association<br>(AMA)</b></h3>
+     </div>
+     <div class="w3-bar-block">
+       <a href="./index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> 
+       <a href="./amalogin.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Login</a> 
+       <a href="./amasignup.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Sign Up</a> 
+     </div>
+   </nav>
+   
+   <!-- Top menu on small screens -->
+   <header class="w3-container w3-top w3-hide-large w3-blue w3-xlarge w3-padding">
+     <a href="javascript:void(0)" class="w3-button w3-blue w3-margin-right" onclick="w3_open()">☰</a>
+   </header>
+   
+   <!-- Overlay effect when opening sidebar on small screens -->
+   <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+   
+   <!-- !PAGE CONTENT! -->
+   <div class="w3-main" style="margin-left:340px;margin-right:40px">
+   
+     <!-- Header -->
+     <div class="w3-container" style="margin-top:80px" id="showcase">
+       <h1 class="w3-jumbo"><b>American Marketing Association</b></h1>
+       <h1 class="w3-xxxlarge w3-text-blue"><b>Sign Up Page</b></h1>
+       <h3 class="w3-xlarge w3-text-blue"><b>Join AMA!</b></h3>
+       <hr style="width:50px;border:5px solid blue" class="w3-round">
+     </div>
+   
+   
+     <script>src ="server.js"</script>
+   </head>
+   <script>
+           var password = document.getElementById("password") //turns password into an object
+           ,repeat_password = document.getElementById("repeat_password"); //turns repeat password into an object
+           
+           function validatePassword(){
+             if(password.value != repeat_password.value) { //if password is not equal to repeat password, say passwords don't match
+               alert("Please make sure passwords match.");
+           response.redirect('public/amasignup.html') 
+             } 
+           else{
+               response.redirect('Login_Successful') 
+           }
+         
+           }
+             validatePassword();
+         </script>
+   <body>
+   
+       <!--this code puts the whole body of the website not overlapping the navbar-->
+       <div style="margin-left:25%;padding:1px 16px;height:1000px;">
            <div>
                    <form  method="POST" action="" onsubmit=validatePassword() >
                      <input type="text" name="fullname" size="40" pattern="[a-zA-Z]+[ ]+[a-zA-Z]+" maxlength="30" placeholder="Enter First & Last Name"><br />
@@ -202,12 +291,45 @@ app.get("/amasignup.html", function (request, response) {
                      <input type="submit" value="Submit" id="submit">
                  </form></div>
               
+       </html>
+       
+   <!-- End page content -->
+   </div>
+   
+   <!-- W3.CSS Container -->
+   <div class="w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right"><a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity"></a></p></div>
+   
+   <script>
+   // Script to open and close sidebar
+   function w3_open() {
+     document.getElementById("mySidebar").style.display = "block";
+     document.getElementById("myOverlay").style.display = "block";
+   }
+    
+   function w3_close() {
+     document.getElementById("mySidebar").style.display = "none";
+     document.getElementById("myOverlay").style.display = "none";
+   }
+   
+   // Modal Image Gallery
+   function onClick(element) {
+     document.getElementById("img01").src = element.src;
+     document.getElementById("modal01").style.display = "block";
+     var captionText = document.getElementById("caption");
+     captionText.innerHTML = element.alt;
+   }
+   
+   
+   </script>
+   
    </body>
-   </html>`;
+   </html>
+   
+`;
    response.send(str);
 });
 
-app.post("/registration.html", function (request, response) {
+app.post("/amasignup.html", function (request, response) {
    // process a simple register form
    console.log(itemquantity);
    the_username = request.body.username;
@@ -229,9 +351,13 @@ app.post("/registration.html", function (request, response) {
       users_reg_data[username].password = request.body.password;
       users_reg_data[username].email = request.body.email;
 
-      theQuantQuerystring = qs.stringify(itemquantity);
-      fs.writeFileSync(filename, JSON.stringify(users_reg_data));
-      response.redirect("/cart_page.html?" + theQuantQuerystring + `&username=${the_username}`);
+         //make the query string have their username for the welcome
+         qstring = querystring.stringify(request.query);
+         //Input cookie data here
+         response.cookie('username', the_username, { maxAge: 50 * 1000 * 10 }).redirect('/amawelcome.html?'+ `&username=${the_username}`);
+         //response.redirect('/amawelcome.html?'+ `&username=${the_username}`);
+   } else {
+      response.redirect('./amasignup.html?');
       
 
    }
